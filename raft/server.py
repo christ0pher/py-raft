@@ -186,7 +186,10 @@ class Server(threading.Thread):
         if not self.valid_peer(uuid):
             return
         if term < self.term:
-            # illegitimate, toss it
+            if term < self.term:
+            # illegitimate, send response so server can step down
+            rpc = self.ae_rpc_reply(self.commitidx, self.term, False)
+            self.send_to_peer(rpc, uuid)
             return
         self.role = 'follower'
         self.handle_msg_follower_ae(msg)

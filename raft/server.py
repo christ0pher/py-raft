@@ -186,7 +186,6 @@ class Server(threading.Thread):
         if not self.valid_peer(uuid):
             return
         if term < self.term:
-            if term < self.term:
             # illegitimate, send response so server can step down
             rpc = self.ae_rpc_reply(self.commitidx, self.term, False)
             self.send_to_peer(rpc, uuid)
